@@ -26,13 +26,17 @@ _TODO: Implement when needed._
 
 ### Read a resource
 
-First subclass and configure `Read`:
+Subclass and configure `Read`:
 
     class Orders < LucidShopify::Resource::Read
       resource :orders
 
       default_options fields: %w(id tags), limit: 250
     end
+
+    orders = Orders.new
+
+    orders.find(client, id)
 
 The `Orders` class is enumerable. Each page is fetched from the API as needed,
 rather than all at once:

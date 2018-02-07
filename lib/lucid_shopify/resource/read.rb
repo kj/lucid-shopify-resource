@@ -65,7 +65,7 @@ module LucidShopify
       #
       def default_shopify_options
         {
-          limit: 50
+          limit: 50,
         }
       end
 
@@ -152,7 +152,7 @@ module LucidShopify
           k = k.to_s
 
           k == 'fields' && v.is_a?(Array) ? v.join(',') : v
-            
+
           h[k] = v
         end
       end

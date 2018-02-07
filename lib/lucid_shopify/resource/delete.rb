@@ -6,7 +6,7 @@ module LucidShopify
     # @abstract
     #
     class Delete
-      def self.new; raise NotImplementedError; end # TODO: implement and remove
+      def self.new; raise NotImplementedError; end
     end
   end
 end

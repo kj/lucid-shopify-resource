@@ -97,19 +97,21 @@ module LucidShopify
       # @raise [ArgumentError] if 'fields' does not include 'id'
       #
       def each(client, options = {})
-        assert_fields_id!(options = finalized_options(options))
-
         return to_enum(__callee__) unless block_given?
 
-        client = client.throttled
+        assert_fields_id!(options = finalized_options(options))
 
-        (1..page_count(client, options)).inject(1) do |since_id, page|
-          results = client.get(resource, options.merge(since_id: since_id)
+        since_id = 1
+
+        loop do
+          results = client.throttled.get(resource, options.merge(since_id: since_id)
           results.each do |result|
             yield result
           end
 
-          results.last['id']
+          break if results.empty?
+
+          since_id = results.last['id']
         end
       end
 
@@ -121,16 +123,6 @@ module LucidShopify
         return unless options['fields'] !~ /\bid\b/
 
         raise ArgumentError, 'attempt to paginate without id field'
-      end
-
-      #
-      # @param client [LucidShopify::AuthorizedClient]
-      # @param options [Hash] the finalized options (see {#finalize_options})
-      #
-      # @return [Integer]
-      #
-      private def page_count(client, options)
-        (client.get("#{resource}/count", options)['count'] / 
       end
 
       #

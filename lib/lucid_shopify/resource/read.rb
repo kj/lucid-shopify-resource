@@ -106,7 +106,7 @@ module LucidShopify
         since_id = 1
 
         loop do
-          results = client.throttled.get(resource, options.merge(since_id: since_id)
+          results = client.throttled.get(resource, options.merge(since_id: since_id))
           results.each do |result|
             yield result
           end

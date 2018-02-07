@@ -77,7 +77,9 @@ module LucidShopify
       # @return [Hash]
       #
       def find(client, id, options = {})
-        client.get("#{resource}/#{id}", finalize_options(options))[resource]
+        options = finalized_options(options)
+
+        client.get("#{resource}/#{id}", options)[resource]
       end
 
       #
@@ -123,6 +125,18 @@ module LucidShopify
         return unless options['fields'] !~ /\bid\b/
 
         raise ArgumentError, 'attempt to paginate without id field'
+      end
+
+      #
+      # @param client [LucidShopify::AuthorizedClient]
+      # @param options [Hash]
+      #
+      # @return [Integer]
+      #
+      def count(client, options = {})
+        options = finalize_options(options)
+
+        client.get("#{resource}/count", options)['count']
       end
 
       #

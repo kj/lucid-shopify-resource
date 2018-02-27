@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    lucid_shopify-resource (0.1.2)
+    lucid_shopify-resource (0.2.0)
 
 GEM
   remote: https://rubygems.org/

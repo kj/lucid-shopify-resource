@@ -9,11 +9,22 @@ module LucidShopify
     #   class Orders < LucidShopify::Resource::Read
     #     resource :orders
     #
-    #     default_options fields: %w(id tags)
+    #     default_params fields: %w(id tags)
     #   end
     #
     class Read
       include Enumerable
+      include LucidShopify
+
+      #
+      # @param client [LucidShopify::Client]
+      #
+      def initialize(client: Client.new(send_request: SendThrottledRequest.new))
+        @client = client
+      end
+
+      # @return [LucidShopify::Client]
+      attr_reader :client
 
       #
       # Set the remote API resource name for the subclass.
@@ -37,16 +48,16 @@ module LucidShopify
       end
 
       #
-      # Set the default query options. Note that 'fields' may be passed as an
+      # Set the default query params. Note that 'fields' may be passed as an
       # array of strings.
       #
-      # @param options [Hash]
+      # @param params [Hash]
       #
       # @example
-      #   default_options fields: %w(id tags)
+      #   default_params fields: %w(id tags)
       #
-      def self.default_options(options)
-        define_method(:default_options) { options }
+      def self.default_params(params)
+        define_method(:default_params) { params }
       end
 
       #
@@ -54,7 +65,7 @@ module LucidShopify
       #
       # @return [Hash]
       #
-      def default_options
+      def default_params
         {}
       end
 
@@ -63,23 +74,23 @@ module LucidShopify
       #
       # @return [Hash]
       #
-      def default_shopify_options
+      def default_shopify_params
         {
           limit: 50,
         }
       end
 
       #
-      # @param client [LucidShopify::AuthorizedClient]
+      # @param credentials [LucidShopify::RequestCredentials]
       # @param id [Integer]
-      # @param options [Hash]
+      # @param params [Hash]
       #
       # @return [Hash]
       #
-      def find(client, id, options = {})
-        options = finalized_options(options)
+      def find(credentials, id, params = {})
+        params = finalized_params(params)
 
-        client.get("#{resource}/#{id}", options)[resource]
+        client.get(credentials, "#{resource}/#{id}", params)[resource]
       end
 
       #
@@ -89,8 +100,8 @@ module LucidShopify
       #
       # Throttling is always enabled.
       #
-      # @param client [LucidShopify::AuthorizedClient]
-      # @param options [Hash]
+      # @param credentials [LucidShopify::RequestCredentials]
+      # @param params [Hash]
       #
       # @yield [Hash]
       #
@@ -98,15 +109,15 @@ module LucidShopify
       #
       # @raise [ArgumentError] if 'fields' does not include 'id'
       #
-      def each(client, options = {})
+      def each(credentials, params = {})
         return to_enum(__callee__) unless block_given?
 
-        assert_fields_id!(options = finalized_options(options))
+        assert_fields_id!(params = finalized_params(params))
 
         since_id = 1
 
         loop do
-          results = client.throttled.get(resource, options.merge(since_id: since_id))
+          results = client.get(credentials, resource, params.merge(since_id: since_id))
           results.each do |result|
             yield result
           end
@@ -118,37 +129,37 @@ module LucidShopify
       end
 
       #
-      # @param options [Hash] the finalized options (see {#finalize_options})
+      # @param params [Hash] the finalized params (see {#finalize_params})
       #
-      private def assert_fields_id!(options)
-        return unless options['fields']
-        return unless options['fields'] !~ /\bid\b/
+      private def assert_fields_id!(params)
+        return unless params['fields']
+        return unless params['fields'] !~ /\bid\b/
 
         raise ArgumentError, 'attempt to paginate without id field'
       end
 
       #
       # @param client [LucidShopify::AuthorizedClient]
-      # @param options [Hash]
+      # @param params [Hash]
       #
       # @return [Integer]
       #
-      def count(client, options = {})
-        options = finalize_options(options)
+      def count(client, params = {})
+        params = finalize_params(params)
 
-        client.get("#{resource}/count", options)['count']
+        client.get("#{resource}/count", params)['count']
       end
 
       #
-      # Merge with default options and format for query string.
+      # Merge with default params and format for query string.
       #
-      # @param options [Hash]
+      # @param params [Hash]
       #
       # @return [Hash]
       #
-      private def finalize_options(options)
-        options = default_shopify_options.merge(default_options).merge(options)
-        options.each_with_object({}) do |(k, v), h|
+      private def finalize_params(params)
+        params = default_shopify_params.merge(default_params).merge(params)
+        params.each_with_object({}) do |(k, v), h|
           k = k.to_s
 
           k == 'fields' && v.is_a?(Array) ? v.join(',') : v

@@ -36,14 +36,14 @@ Subclass and configure `Read`:
 
     orders = Orders.new
 
-    orders.find(client, id)
+    orders.find(request_credentials, id)
 
 The `Orders` class is enumerable. Each page is fetched from the API as needed,
 rather than all at once:
 
     orders = Orders.new
 
-    orders.each(client) |order|
+    orders.each(request_credentials) |order|
       # ...
     end
 

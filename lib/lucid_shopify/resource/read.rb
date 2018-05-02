@@ -110,7 +110,7 @@ module LucidShopify
       # @raise [ArgumentError] if 'fields' does not include 'id'
       #
       def each(credentials, params = {})
-        return to_enum(__callee__) unless block_given?
+        return to_enum(__callee__, params) unless block_given?
 
         assert_fields_id!(params = finalized_params(params))
 

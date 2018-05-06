@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'lucid_shopify/container'
+
 module LucidShopify
   module Resource
     #
@@ -14,16 +16,15 @@ module LucidShopify
     #
     class Read
       include Enumerable
-      include LucidShopify
 
       #
-      # @param client [LucidShopify::Client]
+      # @param client [Client]
       #
-      def initialize(client: Client.new(send_request: SendThrottledRequest.new))
+      def initialize(client: Container[:client])
         @client = client
       end
 
-      # @return [LucidShopify::Client]
+      # @return [Client]
       attr_reader :client
 
       #
@@ -81,7 +82,7 @@ module LucidShopify
       end
 
       #
-      # @param credentials [LucidShopify::RequestCredentials]
+      # @param credentials [RequestCredentials]
       # @param id [Integer]
       # @param params [Hash]
       #
@@ -100,7 +101,7 @@ module LucidShopify
       #
       # Throttling is always enabled.
       #
-      # @param credentials [LucidShopify::RequestCredentials]
+      # @param credentials [RequestCredentials]
       # @param params [Hash]
       #
       # @yield [Hash]
@@ -114,10 +115,12 @@ module LucidShopify
 
         assert_fields_id!(params = finalized_params(params))
 
+        throttled_client = client.throttled
+
         since_id = 1
 
         loop do
-          results = client.get(credentials, resource, params.merge(since_id: since_id))
+          results = throttled_client.get(credentials, resource, params.merge(since_id: since_id))
           results.each do |result|
             yield result
           end
@@ -139,7 +142,7 @@ module LucidShopify
       end
 
       #
-      # @param client [LucidShopify::AuthorizedClient]
+      # @param client [Client]
       # @param params [Hash]
       #
       # @return [Integer]

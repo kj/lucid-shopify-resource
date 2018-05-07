@@ -1,12 +1,25 @@
 # frozen_string_literal: true
 
+require 'lucid_shopify/resource/base'
+
 module LucidShopify
   module Resource
     #
-    # @abstract
+    # @example
+    #   class OrderRepository
+    #     include LucidShopify::Resource::Update
     #
-    class Update
-      def self.new; raise NotImplementedError; end
+    #     resource :orders
+    #
+    #     # ...
+    #   end
+    #
+    module Update
+      def self.included(base)
+        base.include(Base)
+
+        raise NotImplementedError # TODO
+      end
     end
   end
 end

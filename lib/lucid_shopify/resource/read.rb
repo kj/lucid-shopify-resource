@@ -1,68 +1,46 @@
 # frozen_string_literal: true
 
-require 'lucid_shopify/container'
+require 'lucid_shopify/resource/base'
 
 module LucidShopify
   module Resource
     #
-    # @abstract
-    #
     # @example
-    #   class Orders < LucidShopify::Resource::Read
+    #   class OrderRepository
+    #     include LucidShopify::Resource::Read
+    #
     #     resource :orders
     #
-    #     default_params fields: %w(id tags)
+    #     default_params fields: %w[id tags]
+    #
+    #     # ...
     #   end
     #
-    class Read
+    module Read
+      module ClassMethods
+        #
+        # Set the default query params. Note that 'fields' may be passed as an
+        # array of strings.
+        #
+        # @param params [Hash]
+        #
+        # @example
+        #   default_params fields: %w(id tags)
+        #
+        def default_params(params)
+          define_method(:default_params) { params }
+        end
+      end
+
       include Enumerable
 
-      #
-      # @param client [Client]
-      #
-      def initialize(client: Container[:client])
-        @client = client
-      end
-
-      # @return [Client]
-      attr_reader :client
-
-      #
-      # Set the remote API resource name for the subclass.
-      #
-      # @param resource_name [String, #to_s]
-      #
-      # @example
-      #   resource :orders
-      #
-      def self.resource(resource_name)
-        define_method(:resource) { resource_name.to_s }
+      def self.included(base)
+        base.extend(ClassMethods)
+        base.include(Base)
       end
 
       #
-      # @abstract
-      #
-      # @return [String]
-      #
-      def resource
-        raise NotImplementedError
-      end
-
-      #
-      # Set the default query params. Note that 'fields' may be passed as an
-      # array of strings.
-      #
-      # @param params [Hash]
-      #
-      # @example
-      #   default_params fields: %w(id tags)
-      #
-      def self.default_params(params)
-        define_method(:default_params) { params }
-      end
-
-      #
-      # @abstract
+      # @abstract Use {ClassMethods#default_params} to implement (optional)
       #
       # @return [Hash]
       #
@@ -142,12 +120,11 @@ module LucidShopify
       end
 
       #
-      # @param client [Client]
       # @param params [Hash]
       #
       # @return [Integer]
       #
-      def count(client, params = {})
+      def count(params = {})
         params = finalize_params(params)
 
         client.get("#{resource}/count", params)['count']

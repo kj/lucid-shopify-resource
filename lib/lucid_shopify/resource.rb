@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module LucidShopify
-  module Resource; end
+  module Resource
+    autoload :Create, 'lucid_shopify/resource/create'
+    autoload :Delete, 'lucid_shopify/resource/delete'
+    autoload :Read, 'lucid_shopify/resource/read'
+    autoload :Update, 'lucid_shopify/resource/update'
+  end
 end
-
-require 'lucid_shopify/resource/create'
-require 'lucid_shopify/resource/delete'
-require 'lucid_shopify/resource/read'
-require 'lucid_shopify/resource/update'

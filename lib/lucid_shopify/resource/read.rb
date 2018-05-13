@@ -67,7 +67,7 @@ module LucidShopify
       # @return [Hash]
       #
       def find(credentials, id, params = {})
-        params = finalized_params(params)
+        params = finalize_params(params)
 
         client.get(credentials, "#{resource}/#{id}", params)[resource]
       end
@@ -91,7 +91,7 @@ module LucidShopify
       def each(credentials, params = {})
         return to_enum(__callee__, params) unless block_given?
 
-        assert_fields_id!(params = finalized_params(params))
+        assert_fields_id!(params = finalize_params(params))
 
         throttled_client = client.throttled
 

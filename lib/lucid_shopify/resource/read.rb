@@ -120,14 +120,15 @@ module LucidShopify
       end
 
       #
+      # @param credentials [RequestCredentials]
       # @param params [Hash]
       #
       # @return [Integer]
       #
-      def count(params = {})
+      def count(credentials, params = {})
         params = finalize_params(params)
 
-        client.get("#{resource}/count", params)['count']
+        client.get(credentials, "#{resource}/count", params)['count']
       end
 
       #

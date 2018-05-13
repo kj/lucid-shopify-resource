@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module LucidShopify
-  class Resource
-    VERSION = '0.4.3'
+  module Resource
+    VERSION = '0.4.4'
   end
 end

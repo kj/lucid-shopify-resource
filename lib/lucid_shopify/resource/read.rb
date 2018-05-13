@@ -69,7 +69,7 @@ module LucidShopify
       def find(credentials, id, params = {})
         params = finalize_params(params)
 
-        client.get(credentials, "#{resource}/#{id}", params)[resource]
+        client.get(credentials, "#{resource}/#{id}", params).values.first
       end
 
       #
@@ -98,7 +98,7 @@ module LucidShopify
         since_id = 1
 
         loop do
-          results = throttled_client.get(credentials, resource, params.merge(since_id: since_id))
+          results = throttled_client.get(credentials, resource, params.merge(since_id: since_id)).values.first
           results.each do |result|
             yield result
           end

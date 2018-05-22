@@ -69,6 +69,8 @@ module LucidShopify
       def find(credentials, id, params = {})
         params = finalize_params(params)
 
+        logger.info("Fetching #{resource} id=#{id}")
+
         client.get(credentials, "#{resource}/#{id}", params).values.first
       end
 
@@ -98,6 +100,8 @@ module LucidShopify
         since_id = 1
 
         loop do
+          logger.info("Fetching #{resource} since_id=#{since_id}")
+
           results = throttled_client.get(credentials, resource, params.merge(since_id: since_id)).values.first
           results.each do |result|
             yield result
@@ -127,6 +131,8 @@ module LucidShopify
       #
       def count(credentials, params = {})
         params = finalize_params(params)
+
+        logger.info("Fetching #{resource} count")
 
         client.get(credentials, "#{resource}/count", params)['count']
       end

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'logger'
+
 require 'lucid_shopify/container'
 
 module LucidShopify
@@ -25,13 +27,18 @@ module LucidShopify
 
       #
       # @param client [Client]
+      # @param logger [Logger]
       #
-      def initialize(client: Container[:client])
+      def initialize(client: Container[:client],
+                     logger: Logger.new(IO::NULL))
         @client = client
+        @logger = logger
       end
 
       # @return [Client]
       attr_reader :client
+      # @return [Client]
+      attr_reader :logger
 
       #
       # @abstract Use {ClassMethods#resource} to implement (required)

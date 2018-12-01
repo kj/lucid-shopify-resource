@@ -97,7 +97,7 @@ module LucidShopify
 
         throttled_client = client.throttled
 
-        since_id = 1
+        since_id = params.delete('since_id') || 1
 
         loop do
           logger.info("Fetching #{resource} since_id=#{since_id}")

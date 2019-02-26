@@ -32,19 +32,19 @@ Include and configure `Read`:
 
       resource :orders
 
-      default_options fields: %w(id tags), limit: 250
+      default_params fields: %w[id tags], limit: 250
     end
 
-    orders = Orders.new
+    order_repo = OrderRepository.new
 
-    orders.find(request_credentials, id)
+    order_repo.find(credentials, id)
 
 The `OrderRepository` class is enumerable. Each page is fetched
 from the API as needed, rather than all at once:
 
     order_repo = OrderRepository.new
 
-    order_repo.each(request_credentials) |order|
+    order_repo.each(credentials) |order|
       # ...
     end
 

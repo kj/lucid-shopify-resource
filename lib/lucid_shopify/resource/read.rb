@@ -67,7 +67,7 @@ module LucidShopify
       # @return [Hash]
       #
       def find(credentials, id, params = {})
-        params = finalize_params(params)
+        params = finalise_params(params)
 
         logger.info("Fetching #{resource} id=#{id}")
 
@@ -93,7 +93,7 @@ module LucidShopify
       def each(credentials, params = {})
         return to_enum(__method__, credentials, params) unless block_given?
 
-        assert_fields_id!(params = finalize_params(params))
+        assert_fields_id!(params = finalise_params(params))
 
         throttled_client = client.throttled
 
@@ -114,7 +114,7 @@ module LucidShopify
       end
 
       #
-      # @param params [Hash] the finalized params (see {#finalize_params})
+      # @param params [Hash] the finalised params (see {#finalise_params})
       #
       private def assert_fields_id!(params)
         return unless params['fields']
@@ -130,7 +130,7 @@ module LucidShopify
       # @return [Integer]
       #
       def count(credentials, params = {})
-        params = finalize_params(params)
+        params = finalise_params(params)
 
         logger.info("Fetching #{resource} count")
 
@@ -144,7 +144,7 @@ module LucidShopify
       #
       # @return [Hash]
       #
-      private def finalize_params(params)
+      private def finalise_params(params)
         params = default_shopify_params.merge(default_params).merge(params)
         params.each_with_object({}) do |(k, v), h|
           k = k.to_s

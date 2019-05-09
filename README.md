@@ -15,12 +15,12 @@ Usage
 
 ### Create a resource
 
-_TODO: Implement when needed._
+_TODO: Document._
 
 
 ### Delete a resource
 
-_TODO: Implement when needed._
+_TODO: Document._
 
 
 ### Read a resource
@@ -51,4 +51,4 @@ from the API as needed, rather than all at once:
 
 ### Update a resource
 
-_TODO: Implement when needed._
+_TODO: Document._

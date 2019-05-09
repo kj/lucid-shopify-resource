@@ -25,7 +25,9 @@ module LucidShopify
       # @param data [Hash]
       #
       def update(credentials, id, data)
-        client.put_json(credentials, "#{resource}/#{id}", resource_singular => data)
+        client.put_json(credentials, "#{resource}/#{id}", resource_singular => data).tap do
+          logger.info("Updated #{resource_singular} id=#{id}")
+        end
       end
     end
   end

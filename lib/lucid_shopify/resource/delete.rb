@@ -24,9 +24,9 @@ module LucidShopify
       # @param id [Integer]
       #
       def delete(credentials, id)
-        logger.info("Deleting #{resource_singular} id=#{id}")
-
-        client.delete(credentials, "#{resource}/#{id}")
+        client.delete(credentials, "#{resource}/#{id}").tap do
+          logger.info("Deleted #{resource_singular} id=#{id}")
+        end
       end
     end
   end

@@ -28,7 +28,9 @@ module LucidShopify
       def create(credentials, data)
         response = client.post_json(credentials, resource, resource_singular => data)
 
-        response.data_hash.dig(resource_singular, 'id')
+        response.data_hash.dig(resource_singular, 'id').tap do |id|
+          logger.info("Created #{resource_singular} id=#{id}")
+        end
       end
     end
   end

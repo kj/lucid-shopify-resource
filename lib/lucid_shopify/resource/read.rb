@@ -69,7 +69,7 @@ module LucidShopify
       def find(credentials, id, params = {})
         params = finalise_params(params)
 
-        logger.info("Fetching #{resource} id=#{id}")
+        logger.info("Fetching #{resource_singular} id=#{id}")
 
         client.get(credentials, "#{resource}/#{id}", params).values.first
       end
@@ -146,11 +146,10 @@ module LucidShopify
       #
       private def finalise_params(params)
         params = default_shopify_params.merge(default_params).merge(params)
+
         params.each_with_object({}) do |(k, v), h|
           k = k.to_s
-
           k == 'fields' && v.is_a?(Array) ? v.join(',') : v
-
           h[k] = v
         end
       end

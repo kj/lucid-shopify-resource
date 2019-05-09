@@ -31,27 +31,40 @@ module LucidShopify
       end
 
       #
-      # @param client [Client]
-      # @param logger [Logger]
-      #
-      def initialize(client: Container[:client],
-                     logger: Logger.new(IO::NULL))
-        @client = client
-        @logger = logger
-      end
-
-      # @return [Client]
-      attr_reader :client
-      # @return [Logger]
-      attr_reader :logger
-
-      #
       # @abstract Use {ClassMethods#resource} to implement (required)
       #
       # @return [String]
       #
       def resource
         raise NotImplementedError
+      end
+
+      #
+      # @return [Client]
+      #
+      def client
+        @client ||= Container[:client]
+      end
+
+      #
+      # @param new_client [Client]
+      #
+      def client=(new_client)
+        @client = new_client
+      end
+
+      #
+      # @return [Logger]
+      #
+      def logger
+        @logger ||= Logger.new(IO::NULL)
+      end
+
+      #
+      # @param new_logger [Logger]
+      #
+      def logger=(new_logger)
+        @logger = new_logger
       end
     end
   end

@@ -17,8 +17,15 @@ module LucidShopify
     module Update
       def self.included(base)
         base.include(Base)
+      end
 
-        raise NotImplementedError # TODO
+      #
+      # @param credentials [Credentials]
+      # @param id [Integer]
+      # @param data [Hash]
+      #
+      def update(credentials, id, data)
+        client.put_json(credentials, "#{resource}/#{id}", resource_singular => data)
       end
     end
   end

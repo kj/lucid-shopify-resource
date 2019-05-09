@@ -17,8 +17,18 @@ module LucidShopify
     module Create
       def self.included(base)
         base.include(Base)
+      end
 
-        raise NotImplementedError # TODO
+      #
+      # @param credentials [Credentials]
+      # @param data [Hash]
+      #
+      # @return [Integer] the new ID
+      #
+      def create(credentials, data)
+        response = client.post_json(credentials, resource, resource_singular => data)
+
+        response.data_hash.dig(resource_singular, 'id')
       end
     end
   end

@@ -9,15 +9,20 @@ module LucidShopify
     module Base
       module ClassMethods
         #
-        # Set the remote API resource name for the subclass.
+        # Set the remote API resource name for the subclass. If a singular
+        # is not provided, the plural will be used, without any trailing 's'.
         #
-        # @param resource_name [String, #to_s]
+        # @param resource_plural [String, #to_s]
+        # @param resource_singular [String, #to_s, nil]
         #
         # @example
         #   resource :orders
         #
-        def resource(resource_name)
+        def resource(resource_plural, resource_singular = nil)
           define_method(:resource) { resource_name.to_s }
+          define_method(:resource_singular) do
+            resource_singular.nil? ? resource_plural.to_s.sub(/s$/, '') : resource_singular.to_s
+          end
         end
       end
 

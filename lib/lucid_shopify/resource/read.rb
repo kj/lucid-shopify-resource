@@ -60,7 +60,7 @@ module LucidShopify
       end
 
       #
-      # @param credentials [RequestCredentials]
+      # @param credentials [Credentials]
       # @param id [Integer]
       # @param params [Hash]
       #
@@ -81,7 +81,7 @@ module LucidShopify
       #
       # Throttling is always enabled.
       #
-      # @param credentials [RequestCredentials]
+      # @param credentials [Credentials]
       # @param params [Hash]
       #
       # @yield [Hash]
@@ -124,7 +124,7 @@ module LucidShopify
       end
 
       #
-      # @param credentials [RequestCredentials]
+      # @param credentials [Credentials]
       # @param params [Hash]
       #
       # @return [Integer]

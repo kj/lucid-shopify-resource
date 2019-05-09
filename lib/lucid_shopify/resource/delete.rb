@@ -17,8 +17,16 @@ module LucidShopify
     module Delete
       def self.included(base)
         base.include(Base)
+      end
 
-        raise NotImplementedError # TODO
+      #
+      # @param credentials [Credentials]
+      # @param id [Integer]
+      #
+      def delete(credentials, id)
+        logger.info("Deleting #{resource_singular} id=#{id}")
+
+        client.delete(credentials, "#{resource}/#{id}")
       end
     end
   end

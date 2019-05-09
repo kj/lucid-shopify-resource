@@ -15,12 +15,28 @@ Usage
 
 ### Create a resource
 
-_TODO: Document._
+    class OrderRepository
+      include LucidShopify::Resource::Create
+
+      resource :orders
+    end
+
+    order_repo = OrderRepository.new
+
+    order_repo.create(credentials, new_order)
 
 
 ### Delete a resource
 
-_TODO: Document._
+    class OrderRepository
+      include LucidShopify::Resource::Delete
+
+      resource :orders
+    end
+
+    order_repo = OrderRepository.new
+
+    order_repo.delete(credentials, id)
 
 
 ### Read a resource
@@ -51,4 +67,12 @@ from the API as needed, rather than all at once:
 
 ### Update a resource
 
-_TODO: Document._
+    class OrderRepository
+      include LucidShopify::Resource::Update
+
+      resource :orders
+    end
+
+    order_repo = OrderRepository.new
+
+    order_repo.create(credentials, id, order)

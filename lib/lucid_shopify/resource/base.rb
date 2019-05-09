@@ -42,7 +42,7 @@ module LucidShopify
 
       # @return [Client]
       attr_reader :client
-      # @return [Client]
+      # @return [Logger]
       attr_reader :logger
 
       #

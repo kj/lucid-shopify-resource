@@ -71,7 +71,7 @@ module LucidShopify
 
         logger.info("Fetching #{resource_singular} id=#{id}")
 
-        client.get(credentials, "#{resource}/#{id}", params).values.first
+        client.get(credentials, "#{resource}/#{id}", params)[resource_singular]
       end
 
       #
@@ -102,7 +102,7 @@ module LucidShopify
         loop do
           logger.info("Fetching #{resource} since_id=#{since_id}")
 
-          results = throttled_client.get(credentials, resource, params.merge(since_id: since_id)).values.first
+          results = throttled_client.get(credentials, resource, params.merge(since_id: since_id))[resource]
           results.each do |result|
             yield result
           end

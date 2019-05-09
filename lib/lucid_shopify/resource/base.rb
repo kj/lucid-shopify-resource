@@ -19,7 +19,7 @@ module LucidShopify
         #   resource :orders
         #
         def resource(resource_plural, resource_singular = nil)
-          define_method(:resource) { resource_name.to_s }
+          define_method(:resource) { resource_plural.to_s }
           define_method(:resource_singular) do
             resource_singular.nil? ? resource_plural.to_s.sub(/s$/, '') : resource_singular.to_s
           end

@@ -15,6 +15,9 @@ module LucidShopify
     #   end
     #
     module Update
+      #
+      # @param base [Class, Module]
+      #
       def self.included(base)
         base.include(Base)
       end

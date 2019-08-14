@@ -26,6 +26,9 @@ module LucidShopify
         end
       end
 
+      #
+      # @param base [Class, Module]
+      #
       def self.included(base)
         base.extend(ClassMethods)
       end

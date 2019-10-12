@@ -8,7 +8,6 @@ module LucidShopify
   module Resource
     module Base
       module ClassMethods
-        #
         # Set the remote API resource name for the subclass. If a singular
         # is not provided, the plural will be used, without any trailing 's'.
         #
@@ -17,7 +16,6 @@ module LucidShopify
         #
         # @example
         #   resource :orders
-        #
         def resource(resource_plural, resource_singular = nil)
           define_method(:resource) { resource_plural.to_s }
           define_method(:resource_singular) do
@@ -26,46 +24,34 @@ module LucidShopify
         end
       end
 
-      #
       # @param base [Class, Module]
-      #
       def self.included(base)
         base.extend(ClassMethods)
       end
 
-      #
       # @abstract Use {ClassMethods#resource} to implement (required)
       #
       # @return [String]
-      #
       def resource
         raise NotImplementedError
       end
 
-      #
       # @return [Client]
-      #
       def client
         @client ||= Container[:client]
       end
 
-      #
       # @param new_client [Client]
-      #
       def client=(new_client)
         @client = new_client
       end
 
-      #
       # @return [Logger]
-      #
       def logger
         @logger ||= Logger.new(IO::NULL)
       end
 
-      #
       # @param new_logger [Logger]
-      #
       def logger=(new_logger)
         @logger = new_logger
       end

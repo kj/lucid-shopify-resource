@@ -4,7 +4,6 @@ require 'lucid_shopify/resource/base'
 
 module LucidShopify
   module Resource
-    #
     # @example
     #   class OrderRepository
     #     include LucidShopify::Resource::Create
@@ -13,21 +12,16 @@ module LucidShopify
     #
     #     # ...
     #   end
-    #
     module Create
-      #
       # @param base [Class, Module]
-      #
       def self.included(base)
         base.include(Base)
       end
 
-      #
       # @param credentials [Credentials]
       # @param data [Hash]
       #
       # @return [Integer] the new ID
-      #
       def create(credentials, data)
         data = client.post_json(credentials, resource, resource_singular => data).to_h
 

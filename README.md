@@ -1,4 +1,4 @@
-lucid_shopify-resource
+lucid-shopify-resource
 ======================
 
 Installation
@@ -6,8 +6,8 @@ Installation
 
 Add the gem to your ‘Gemfile’:
 
-    gem 'lucid_shopify'
-    gem 'lucid_shopify-resource'
+    gem 'lucid-shopify'
+    gem 'lucid-shopify-resource'
 
 
 Usage
@@ -16,7 +16,7 @@ Usage
 ### Create a resource
 
     class OrderRepository
-      include LucidShopify::Resource::Create
+      include Lucid::Shopify::Resource::Create
 
       resource :orders
     end
@@ -29,7 +29,7 @@ Usage
 ### Delete a resource
 
     class OrderRepository
-      include LucidShopify::Resource::Delete
+      include Lucid::Shopify::Resource::Delete
 
       resource :orders
     end
@@ -44,7 +44,7 @@ Usage
 Include and configure `Read`:
 
     class OrderRepository
-      include LucidShopify::Resource::Read
+      include Lucid::Shopify::Resource::Read
 
       resource :orders
 
@@ -68,7 +68,7 @@ from the API as needed, rather than all at once:
 ### Update a resource
 
     class OrderRepository
-      include LucidShopify::Resource::Update
+      include Lucid::Shopify::Resource::Update
 
       resource :orders
     end

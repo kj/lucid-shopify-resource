@@ -2,4 +2,4 @@
 
 # Primarily for Bundler.
 
-require 'lucid_shopify/resource'
+require 'lucid/shopify/resource'

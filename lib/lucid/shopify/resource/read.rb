@@ -85,14 +85,12 @@ module Lucid
 
           assert_fields_id!(params = finalise_params(params))
 
-          throttled_client = client.throttled
-
           since_id = params.delete('since_id') || 1
 
           loop do
             logger.info("Fetching #{resource} since_id=#{since_id}")
 
-            results = throttled_client.get(credentials, resource, params.merge(since_id: since_id))[resource]
+            results = client.get(credentials, resource, params.merge(since_id: since_id))[resource]
             results.each do |result|
               yield result
             end

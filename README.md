@@ -55,8 +55,8 @@ Include and configure `Read`:
 
     order_repo.find(credentials, id)
 
-The `OrderRepository` class is enumerable. Each page is fetched
-from the API as needed, rather than all at once:
+The `OrderRepository` class is enumerable. Each page is fetched from the API as
+needed, rather than all at once:
 
     order_repo = OrderRepository.new
 

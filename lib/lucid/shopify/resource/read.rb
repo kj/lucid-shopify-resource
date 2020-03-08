@@ -66,9 +66,7 @@ module Lucid
           client.get(credentials, "#{resource}/#{id}", params)[resource_singular]
         end
 
-        # Iterate over results. If set, the 'fields' option must include 'id'. We
-        # would not need this if we used offset pagination, but offset pagination
-        # is unreliable.
+        # Iterate over results. If set, the 'fields' option must include 'id'.
         #
         # Throttling is always enabled.
         #
